@@ -12,6 +12,7 @@
       "flags": ""
     }
   },
+  "embark-geth": {},
   "options": {
     "solc": {
       "optimize": true,

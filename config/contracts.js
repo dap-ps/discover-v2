@@ -1,5 +1,6 @@
 module.exports = {
   default: {
+    library: 'embarkjs', // can be also be 'web3'
     dappAutoEnable: false,
 
     gas: 'auto',
@@ -17,7 +18,7 @@ module.exports = {
   development: {
     dappConnection: [
       '$WEB3',
-      'https://ropsten.infura.io/v3/8675214b97b44e96b70d05326c61fd6a',
+      'https://ropsten.infura.io/v3/9ad2b075061f4ef9b5dd20859eeb8830',
     ],
     deploy: {
       Discover: {
@@ -33,7 +34,7 @@ module.exports = {
   testnet: {
     dappConnection: [
       '$WEB3',
-      'https://ropsten.infura.io/v3/8675214b97b44e96b70d05326c61fd6a',
+      'https://ropsten.infura.io/v3/9ad2b075061f4ef9b5dd20859eeb8830',
     ],
     deploy: {
       Discover: {
@@ -45,7 +46,7 @@ module.exports = {
   livenet: {
     dappConnection: [
       '$WEB3',
-      'https://mainnet.infura.io/v3/8675214b97b44e96b70d05326c61fd6a',
+      'https://mainnet.infura.io/v3/9ad2b075061f4ef9b5dd20859eeb8830',
     ],
     deploy: {
       MiniMeTokenFactory: {
