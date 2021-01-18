@@ -21,11 +21,18 @@ module.exports = {
       'https://ropsten.infura.io/v3/9ad2b075061f4ef9b5dd20859eeb8830',
     ],
     deploy: {
+      MiniMeTokenFactory: {
+        deploy: false,
+      },
+      MiniMeToken: {
+        address: '0xc55cf4b03948d7ebc8b9e8bad92643703811d162', // Ropsten SNT address
+      },
       Discover: {
-        args:["0xbF5d8683b9BE6C43fcA607eb2a6f2626A18837a6"]
+        args:["$MiniMeToken"]
       },
       DiscoverKyberSwap: {
-        args: ["$Discover", "0x818E6FECD516Ecc3849DAf6845e3EC868087B755", "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "0xbF5d8683b9BE6C43fcA607eb2a6f2626A18837a6", "0x0000000000000000000000000000000000000000", 20]
+        deploy: false,
+        //args: ["$Discover", "0x818E6FECD516Ecc3849DAf6845e3EC868087B755", "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "0xbF5d8683b9BE6C43fcA607eb2a6f2626A18837a6", "0x0000000000000000000000000000000000000000", 20]
       }
     },
     tracking: 'shared.development.chains.json',
@@ -37,10 +44,20 @@ module.exports = {
       'https://ropsten.infura.io/v3/9ad2b075061f4ef9b5dd20859eeb8830',
     ],
     deploy: {
+      MiniMeTokenFactory: {
+        deploy: false,
+      },
+      MiniMeToken: {
+        address: '0xc55cf4b03948d7ebc8b9e8bad92643703811d162', // Ropsten SNT address
+      },
       Discover: {
-        args:["0xc55cf4b03948d7ebc8b9e8bad92643703811d162"]
+        args:["$MiniMeToken"] // TODO: replace for real ropsten address
+      },
+      DiscoverKyberSwap: {
+        deploy: false
       }
-    }
+    },
+    tracking: 'shared.testnet.chains.json',
   },
 
   livenet: {
@@ -59,7 +76,8 @@ module.exports = {
         address: '0x5bCF2767F86f14eDd82053bfBfd5069F68C2C5F8',
       },
       DiscoverKyberSwap: {
-        args: ["$Discover", "0x818E6FECD516Ecc3849DAf6845e3EC868087B755", "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "0x744d70fdbe2ba4cf95131626614a1763df805b9e", "0x0000000000000000000000000000000000000000", 20]
+        deploy: false,
+        //args: ["$Discover", "0x818E6FECD516Ecc3849DAf6845e3EC868087B755", "0xeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee", "0x744d70fdbe2ba4cf95131626614a1763df805b9e", "0x0000000000000000000000000000000000000000", 20]
       }
     },
     tracking: 'shared.mainnet.chains.json',

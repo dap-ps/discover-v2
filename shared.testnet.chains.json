@@ -1,22 +1,11 @@
 {
   "0x41941023680923e0fe4d74a34bdac8141f2540e3ae90623718e47d66d1ca4a2d": {
     "contracts": {
-      "0xe901d01d0cf8056c85c28f67149efafe606ac20707c3069b1c61a78c601779e1": {
-        "name": "MiniMeToken",
-        "address": "0xc55cf4b03948d7ebc8b9e8bad92643703811d162"
-      },
-      "0x608829b14a067d406fd623b20919d4a7719c06bb7bccdc3a7d18b11f15d8e11a": {
-        "name": "Discover",
-        "address": "0xC8d48B421eAFdD75d5144E8f06882Cb5F0746Bd2"
-      },
       "0xa4375ab33cee855df7ced45caa843fb9f450adb7944cea8fd46710f06587686c": {
         "name": "Discover",
-        "address": "0x426D564088681DF29242f8178e60E52D1F4cf8A3"
-      },
-      "0x21389315d2b5cfa1d29b352c3c4cc6df2dc1002591c18150de310a8781ce1438": {
-        "name": "DiscoverKyberSwap",
-        "address": "0x512469b66012d09BE626645Ce43050318622c9e8"
+        "address": "0x0a9c7885AdD7a77DC0Bab209960D0bf7050C2129"
       }
-    }
+    },
+    "name": "testnet"
   }
 }
