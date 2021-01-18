@@ -124,14 +124,13 @@ export const web3Keccak = (input: string) => {
 let contracts = {};
 
 // TODO investigate listeners
-export const connectContract = async (Contract: any, address: string) => {
+export const connectContract = async (Contract: any, address: string = "") => {
+  if(!address){
+    address = Contract.options.address;
+  }
+  
   if (!contracts[address]) {
     const clonedContract = Contract.clone();
-    if (address) {
-      clonedContract.address = address;
-      clonedContract.options.address = address;
-    }
-
     contracts[address] = clonedContract;
   }
 

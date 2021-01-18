@@ -4,7 +4,6 @@ import {
   getAccount,
   defaultMultiplier,
   broadcastContractFn,
-  ContractAddresses,
 } from 'domain/App/blockchainUtils';
 import DiscoverAbi from '../../../embarkArtifacts/contracts/Discover';
 import { AddressZero } from 'ethers/constants';
@@ -16,12 +15,7 @@ import { getIpfsHashFromBytes32 } from 'domain/App/sagas/metadata.saga';
 // View methods
 export const DiscoverUpVoteEffect = async (id: string, amount: number) => {
   const tokenAmount = bigNumberify(amount);
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
   await validateUpVoteEffect(id, amount);
   return await DiscoverContract.methods
     .upvoteEffect(id, tokenAmount.toString())
@@ -31,24 +25,14 @@ export const DiscoverUpVoteEffect = async (id: string, amount: number) => {
 export const DiscoverDownVoteCost = async (id: string) => {
   const dapp = await DiscoverGetDAppById(id);
 
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
   return await DiscoverContract.methods
     .downvoteCost(dapp.id)
     .call({ from: AddressZero });
 };
 
 export const DiscoverGetDAppById = async (id: string) => {
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
   const dappExists = await DiscoverDappExists(id);
 
   if (dappExists) {
@@ -73,24 +57,14 @@ export const DiscoverGetDAppById = async (id: string) => {
 };
 
 export const DiscoverGetDAppsCount = async () => {
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
   return parseInt(
     await DiscoverContract.methods.getDAppsCount().call({ from: AddressZero }),
   );
 };
 
 export const DiscoverGetDAppsMeta = async (id: number) => {
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
   return await DiscoverContract.methods.dapps(id).call({ from: AddressZero });
 };
 
@@ -151,22 +125,12 @@ export const DiscoverHelperGetMeta = async (
 };
 
 export const DiscoverSafeMax = async () => {
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
   return DiscoverContract.methods.safeMax().call({ from: AddressZero });
 };
 
 export const DiscoverDappExists = async (id: string) => {
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
   return DiscoverContract.methods.existingIDs(id).call({ from: AddressZero });
 };
 
@@ -180,12 +144,7 @@ export const DiscoverCreateDApp = async (
   if (account == AddressZero) {
     throw 'Account not connected';
   }
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
   const callData = DiscoverContract.methods
     .createDApp(dappId, tokenAmount.toString(), uploadedMetadata)
     .encodeABI();
@@ -198,12 +157,7 @@ export const DiscoverCreateDApp = async (
 };
 
 export const DiscoverUpVote = async (id: string, amount: number) => {
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
   const tokenAmount = defaultMultiplier.mul(bigNumberify(amount));
 
   const callData = DiscoverContract.methods
@@ -217,12 +171,7 @@ export const DiscoverUpVote = async (id: string, amount: number) => {
 };
 
 export const DiscoverDownVote = async (id: string) => {
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
   const dapp = await DiscoverGetDAppById(id);
   const amount = (await DiscoverDownVoteCost(dapp.id)).c;
 
@@ -243,12 +192,7 @@ export const DiscoverWithdraw = async (id: string, amount: number) => {
   if (account == AddressZero) {
     throw 'Account not connected';
   }
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
   const tokenAmount = defaultMultiplier.mul(bigNumberify(amount));
   await validateWithdrawing(id, tokenAmount);
 
@@ -267,12 +211,7 @@ export const DiscoverSetMetadata = async (id: string, metadataHash: string) => {
   if (account == AddressZero) {
     throw 'Account not connected';
   }
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
 
   try {
     const tx = await broadcastContractFn(
@@ -294,12 +233,8 @@ export const DiscoverWithdrawMax = async (dappId: string) => {
   if (account == AddressZero) {
     throw 'Account not connected';
   }
-  const DiscoverContract = await connectContract(
-    DiscoverAbi,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)]
-      .DISCOVER,
-    // ContractAddresses[await getNetworkId()].DISCOVER,
-  );
+  const DiscoverContract = await connectContract(DiscoverAbi);
+
   const decimals = 1000000;
   const draw = await DiscoverContract.methods.withdrawMax(dappId).call({
     from: account,

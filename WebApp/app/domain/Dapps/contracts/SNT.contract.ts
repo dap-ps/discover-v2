@@ -2,47 +2,29 @@ import SNTContract from '../../../embarkArtifacts/contracts/MiniMeToken';
 import {
   connectContract,
   getAccount,
-  broadcastContractFn,
-  ContractAddresses,
+  broadcastContractFn
 } from 'domain/App/blockchainUtils';
 import { AddressZero } from 'ethers/constants';
 import { BigNumber, bigNumberify } from 'ethers/utils';
 
 // View functions will just use address zero
 export const SNTallowance = async (from: string, to: string) => {
-  const SNTToken = await connectContract(
-    SNTContract,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)].SNT,
-    // ContractAddresses[await getNetworkId()].SNT,
-  );
-
+  const SNTToken = await connectContract(SNTContract);
   return await SNTToken.methods.allowance(from, to).call({ from: AddressZero });
 };
 
 export const SNTbalanceOf = async (account: string) => {
-  const SNTToken = await connectContract(
-    SNTContract,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)].SNT,
-    // ContractAddresses[await getNetworkId()].SNT,
-  );
+  const SNTToken = await connectContract(SNTContract);
   return await SNTToken.methods.balanceOf(account).call({ from: AddressZero });
 };
 
 export const SNTcontroller = async () => {
-  const SNTToken = await connectContract(
-    SNTContract,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)].SNT,
-    // ContractAddresses[await getNetworkId()].SNT,
-  );
+  const SNTToken = await connectContract(SNTContract);
   return await SNTToken.methods.controller().call({ from: AddressZero });
 };
 
 export const SNTtransferable = async () => {
-  const SNTToken = await connectContract(
-    SNTContract,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)].SNT,
-    // ContractAddresses[await getNetworkId()].SNT,
-  );
+  const SNTToken = await connectContract(SNTContract);
   return await SNTToken.methods.transfersEnabled().call({ from: AddressZero });
 };
 
@@ -79,11 +61,7 @@ export const SNTapproveAndCall = async (
   if (account == AddressZero) {
     throw 'Account not connected';
   }
-  const SNTToken = await connectContract(
-    SNTContract,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)].SNT,
-    // ContractAddresses[await getNetworkId()].SNT,
-  );
+  const SNTToken = await connectContract(SNTContract);
   if (await validateApproveAndCall(amount)) {
     return await broadcastContractFn(
       SNTToken.methods.approveAndCall(spender, amount.toString(), callData),
@@ -100,11 +78,6 @@ export const SNTgenerateTokens = async () => {
   if (account == AddressZero) {
     throw 'Account not connected';
   }
-  const SNTToken = await connectContract(
-    SNTContract,
-    ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)].SNT,
-    // ContractAddresses[await getNetworkId()].SNT,
-  );
-
+  const SNTToken = await connectContract(SNTContract);
   await SNTToken.methods.generateTokens(account, 10000).send({ from: account });
 };

@@ -7,7 +7,8 @@
     "build:testnet": "embark build testnet",
     "build:development": "embark build development",
     "build": "embark build livenet",
-    "start:dev": "yarn build:testnet",
+    "start:dev": "yarn build:development",
+    "start:testnet": "embark build testnet",
     "start:prod": "yarn build",
     "slither": "slither . --exclude naming-convention --filter-paths token"
   },

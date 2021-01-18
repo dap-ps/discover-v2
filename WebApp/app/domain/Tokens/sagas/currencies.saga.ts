@@ -6,6 +6,7 @@ import { RootState } from 'domain/App/types';
 import { IDAppsToken } from '../types';
 import { utils } from 'ethers';
 import { ContractAddresses, getRpcUrl, getNetworkName } from 'domain/App/blockchainUtils';
+import SNTContract from '../../../embarkArtifacts/contracts/MiniMeToken';
 
 function* getBalancesSaga() {
   while (true) {
@@ -31,7 +32,7 @@ function* getBalancesSaga() {
             account,
             [
               ...tokenAddresses,
-              ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)].SNT
+              SNTContract.options.address
             ],
           ),
       );
