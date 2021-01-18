@@ -21,6 +21,9 @@
     
     "start:dev-internal": "yarn wsrun --parallel --exclude-missing start:dev",
     "start:dev": "dotenv yarn start:dev-internal",
+
+    "start:testnet-internal": "yarn wsrun --parallel --exclude-missing start:testnet",
+    "start:testnet": "dotenv yarn start:testnet-internal",
     
     "start:prod-internal": "yarn wsrun --parallel --exclude-missing start:prod",
     "start:prod": "dotenv yarn start:prod-internal",
