@@ -1,5 +1,7 @@
 import { getType } from 'typesafe-actions';
 import { DomainState, DomainActions } from './types';
+import BlockchainConfig from 'embarkArtifacts/config/blockchain.json';
+
 import {
   setLoadingAction,
   setNetworkAction,
@@ -17,7 +19,7 @@ import {
 export const initialState: DomainState = {
   loading: true,
   errorMessage: '',
-  network: parseInt(process.env['TARGET_NETWORK'] as string),
+  network: BlockchainConfig.networkId,
   requestQueue: [],
 };
 

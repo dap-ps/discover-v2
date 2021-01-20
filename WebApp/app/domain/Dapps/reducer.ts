@@ -14,9 +14,11 @@ import {
   updateDappAction,
 } from './actions';
 import { FEATURED_DAPP_IDS } from './Featured';
+import BlockchainConfig from 'embarkArtifacts/config/blockchain.json';
+
 
 export const initialState: DomainState = {
-  featuredDapps: FEATURED_DAPP_IDS[parseInt(process.env["TARGET_NETWORK"] as string)],
+  featuredDapps: FEATURED_DAPP_IDS[BlockchainConfig.networkId],
   loading: false,
   dapps: [],
   lastUpdate: 0,
