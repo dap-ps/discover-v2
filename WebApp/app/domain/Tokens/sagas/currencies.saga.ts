@@ -5,8 +5,9 @@ import { getTokensBalance } from '@mycrypto/eth-scan';
 import { RootState } from 'domain/App/types';
 import { IDAppsToken } from '../types';
 import { utils } from 'ethers';
-import { ContractAddresses, getRpcUrl, getNetworkName } from 'domain/App/blockchainUtils';
+import { getRpcUrl, getNetworkName } from 'domain/App/blockchainUtils';
 import SNTContract from '../../../embarkArtifacts/contracts/MiniMeToken';
+import BlockchainConfig from 'embarkArtifacts/config/blockchain.json';
 
 function* getBalancesSaga() {
   while (true) {
@@ -18,7 +19,7 @@ function* getBalancesSaga() {
       );
       const currencies: KyberERC20Token[] = yield call(
         getKyberCurrencies,
-        getNetworkName(parseInt(process.env['TARGET_NETWORK'] as string)),
+        getNetworkName(BlockchainConfig.networkId),
       );
 
       const tokenAddresses = currencies
@@ -38,13 +39,13 @@ function* getBalancesSaga() {
       );
 
       let balances: IDAppsToken[] = Object.keys(fetchedBalances)
-        .filter((key) => fetchedBalances[key].gt(0) || key.toLowerCase() == ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)].SNT.toLowerCase())
+        .filter((key) => fetchedBalances[key].gt(0) || key.toLowerCase() == SNTContract.options.address.toLowerCase())
         .map((tokenAddress) => {
           const target = currencies.filter(
             (cur) => cur.address.toLowerCase() == tokenAddress.toLowerCase(),
           )[0];
 
-          if (tokenAddress.toLowerCase() == ContractAddresses[parseInt(process.env['TARGET_NETWORK'] as string)].SNT.toLowerCase()){
+          if (tokenAddress.toLowerCase() == SNTContract.options.address.toLowerCase()){
             return {
               address: tokenAddress,
               allowance: utils.bigNumberify(0),

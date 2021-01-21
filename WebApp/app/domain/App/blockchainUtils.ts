@@ -1,4 +1,6 @@
 import EmbarkJS from 'embarkArtifacts/embarkjs';
+import BlockchainConfig from 'embarkArtifacts/config/blockchain.json';
+
 import Web3 from 'web3';
 import { utils } from 'ethers';
 import { AddressZero } from 'ethers/constants';
@@ -21,17 +23,6 @@ export const broadcastContractFn = (contractMethod, account: string) => {
       })
       .catch((error) => reject);
   });
-};
-
-export const ContractAddresses = {
-  1: {
-    SNT: process.env.MAINNET_SNT,
-    DISCOVER: process.env.MAINNET_DISCOVER,
-  },
-  3: {
-    SNT: process.env.ROPSTEN_SNT,
-    DISCOVER: process.env.ROPSTEN_DISCOVER,
-  },
 };
 
 export const getNetworkName = (id: number): string => {
@@ -139,11 +130,11 @@ export const connectContract = async (Contract: any, address: string = "") => {
   const network = await getNetworkId();
   if (
     !provider?.selectedAddress ||
-    `${network}` != process.env['TARGET_NETWORK']
+    `${network}` != `${BlockchainConfig.networkId}`
   ) {
     // @ts-ignore
     contracts[address].currentProvider = new Web3.providers.WebsocketProvider(
-      await getRpcUrl(parseInt(process.env['TARGET_NETWORK'] as string)),
+      await getRpcUrl(BlockchainConfig.networkId),
     );
   }
 

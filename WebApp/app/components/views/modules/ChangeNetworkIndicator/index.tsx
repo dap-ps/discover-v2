@@ -17,6 +17,7 @@ import { useSelector } from 'react-redux';
 import classNames from 'classnames';
 import { getNetworkName } from 'domain/App/blockchainUtils';
 import { uiConstants, appColors } from 'theme';
+import BlockchainConfig from 'embarkArtifacts/config/blockchain.json';
 
 const styles = (theme: Theme) =>
   createStyles({
@@ -48,9 +49,7 @@ interface OwnProps extends WithStyles<typeof styles> {}
 
 const ChangeNetworkIndicator: React.FC<OwnProps> = ({ classes }: OwnProps) => {
   const correctNetwork = useSelector(makeSelectNetworkValid);
-  const correctNetworkName = getNetworkName(
-    parseInt(process.env['TARGET_NETWORK'] as string),
-  );
+  const correctNetworkName = getNetworkName(BlockchainConfig.networkId);
   return (
     <article
       className={classNames(classes.root, {

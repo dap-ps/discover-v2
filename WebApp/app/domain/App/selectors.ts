@@ -1,5 +1,6 @@
 import { createSelector } from 'reselect';
 import { ApplicationRootState } from 'types';
+import BlockchainConfig from 'embarkArtifacts/config/blockchain.json';
 
 /**
  * Direct selector to the user state domain
@@ -41,5 +42,5 @@ export const makeSelectNetwork = createSelector(
 export const makeSelectNetworkValid = createSelector(
   selectNetwork,
   (network: number) =>
-    network == parseInt(process.env['TARGET_NETWORK'] as string),
+    network == BlockchainConfig.networkId,
 );
