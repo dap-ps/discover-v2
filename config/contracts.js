@@ -51,7 +51,7 @@ module.exports = {
         address: '0xc55cf4b03948d7ebc8b9e8bad92643703811d162', // Ropsten SNT address
       },
       Discover: {
-        args:["$MiniMeToken"] // TODO: replace for real ropsten address
+        address: '0x9fb115BC152aE21ECDc81c73843673fa38e4D2dB'
       },
       DiscoverKyberSwap: {
         deploy: false
