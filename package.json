@@ -11,10 +11,16 @@
     "fullbuild:backend": "cp -r Backend/* full-build/",
     "fullbuild:webapp": "mkdir full-build/frontend && cp -r WebApp/build/* full-build/frontend/",
     "fullbuild:archive": "cd full-build/ && bestzip ../app.zip * && cd ..",
+
     "create:fullbuild": "yarn build && yarn fullbuild:clean && yarn fullbuild:init && yarn fullbuild:misc && yarn fullbuild:backend && yarn fullbuild:webapp && yarn fullbuild:archive",
+    "create:fullbuild:testnet": "yarn build:testnet && yarn fullbuild:clean && yarn fullbuild:init && yarn fullbuild:misc && yarn fullbuild:backend && yarn fullbuild:webapp && yarn fullbuild:archive",
     
-    "build-internal": "yarn wsrun --stages --exclude-missing -c build",
+    "build-internal": "yarn wsrun --serial --exclude-missing -c build",
     "build": "dotenv yarn build-internal",
+    
+    "build-internal:testnet": "yarn wsrun --serial --exclude-missing -c build:testnet",
+    "build:testnet": "dotenv yarn build-internal:testnet",
+    
     "build:local": "dotenv yarn build",
     "build:webapp-internal": "yarn wsrun -p webapp -c build",
     "build:webapp": "dotenv yarn build:webapp-internal",
