@@ -1,4 +1,4 @@
-import { take, call, put, race, delay } from 'redux-saga/effects';
+import { take, call, put, race } from 'redux-saga/effects';
 import {
   downvoteDappAction,
   setDappsLoadingAction,
@@ -15,22 +15,15 @@ function* downvoteSaga(voteData: IDappVote) {
   try {
     yield put(setDappsLoadingAction(true));
 
-    let attempts = 10;
     let downVoteTx;
     let error;
-    while (attempts > 0) {
-      try {
-        downVoteTx = yield call(
-          async () => await DiscoverDownVote(voteData.id),
-        );
-        attempts = 0;
-      } catch (caughtError) {
-        error = caughtError;
-      }
-      yield delay(250);
-      attempts--;
+    try {
+      downVoteTx = yield call(
+        async () => await DiscoverDownVote(voteData.id),
+      );
+    } catch (caughtError) {
+      error = caughtError;
     }
-
     if (!downVoteTx) {
       throw error;
     }

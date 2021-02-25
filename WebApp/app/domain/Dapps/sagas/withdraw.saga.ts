@@ -1,4 +1,4 @@
-import { take, call, put, race, delay } from 'redux-saga/effects';
+import { take, call, put, race } from 'redux-saga/effects';
 import {
   updateDappAction,
   setDappsLoadingAction,
@@ -16,21 +16,16 @@ function* withdrawSaga(withdrawRequest: IWithdrawRequest) {
   try {
     yield put(setDappsLoadingAction(true));
 
-    let attempts = 10;
     let withdrawTx;
     let error;
-    while (attempts > 0) {
-      try {
-        withdrawTx = yield call(
-          async () =>
-            await DiscoverWithdraw(withdrawRequest.id, withdrawRequest.amount),
-        );
-        attempts = 0;
-      } catch (caughtError) {
-        error = caughtError;
-      }
-      yield delay(250);
-      attempts--;
+
+    try {
+      withdrawTx = yield call(
+        async () =>
+          await DiscoverWithdraw(withdrawRequest.id, withdrawRequest.amount),
+      );
+    } catch (caughtError) {
+      error = caughtError;
     }
 
     if (!withdrawTx) {

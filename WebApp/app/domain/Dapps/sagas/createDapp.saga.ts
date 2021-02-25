@@ -1,4 +1,4 @@
-import { take, call, put, select, race, delay } from 'redux-saga/effects';
+import { take, call, put, select, race } from 'redux-saga/effects';
 import {
   createDappAction,
   setDappsLoadingAction,
@@ -56,47 +56,41 @@ function* createDappSaga(dapp: IDapp) {
     yield call(async () => await validateDAppCreation(dapp.id, tokenAmount));
 
     // Store in DB
-    let attempts = 10;
+
     let uploadedMetadata;
     let error;
 
-    while (attempts > 0) {
-      try {
-        uploadedMetadata = yield call(
-          async () => await uploadMetadataApi(dappMetadata, dapp.email),
-        );
-        attempts = 0;
-      } catch (caughtError) {
-        error = caughtError;
-      }
-      yield delay(250);
-      attempts--;
+    try {
+      uploadedMetadata = yield call(
+        async () => await uploadMetadataApi(dappMetadata, dapp.email),
+      );
+
+    } catch (caughtError) {
+      error = caughtError;
     }
+
+    
 
     if (!uploadedMetadata) {
       throw error;
     }
-    attempts = 10;
+
     // Check if publishing should happen
     // This value was set in the last step of the creation form
     if ((dapp.sntValue as number) > 0) {
       let createdTx;
-      while (attempts > 0) {
-        try {
-          createdTx = yield call(
-            async () =>
-              await DiscoverCreateDApp(
-                dapp.id,
-                tokenAmount,
-                getBytes32FromIpfsHash(uploadedMetadata.data.hash),
-              ),
-          );
-          attempts = 0;
-        } catch (caughtError) {
-          error = caughtError;
-        }
-        yield delay(250);
-        attempts--;
+    
+      try {
+        createdTx = yield call(
+          async () =>
+            await DiscoverCreateDApp(
+              dapp.id,
+              tokenAmount,
+              getBytes32FromIpfsHash(uploadedMetadata.data.hash),
+            ),
+        );
+      } catch (caughtError) {
+        error = caughtError;
       }
 
       if (!createdTx) {
