@@ -63,12 +63,14 @@ export const checkNetwork = async () => {};
 
 export const defaultMultiplier = utils.bigNumberify('1000000000000000000');
 
+export const NoNetworkIdAvailable = -90909;
+
 export const getNetworkId = async (): Promise<number> => {
   // TODO: memoize
   try {
     return await getWeb3().eth.net.getId();
   }catch(error) {
-    return 99
+    return NoNetworkIdAvailable
   }
 };
 

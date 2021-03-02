@@ -1,4 +1,4 @@
-import { take, call, put, race, delay } from 'redux-saga/effects';
+import { take, call, put, race } from 'redux-saga/effects';
 import {
   upvoteDappAction,
   setDappsLoadingAction,
@@ -17,27 +17,23 @@ import { generateUri } from 'api/apiUrlBuilder';
 function* upvoteSaga(voteData: IDappVote) {
   try {
     yield put(setDappsLoadingAction(true));
-    let attempts = 10;
     let upvoteTx;
     let error;
-    while (attempts > 0) {
-      try {
-        yield call(
-          async () =>
-            await validateUpVoting(voteData.id, voteData.amount as number),
-        );
-        upvoteTx = yield call(
-          async () =>
-            await DiscoverUpVote(voteData.id, voteData.amount as number),
-        );
-        attempts = 0;
-      } catch (caughtError) {
-        error = caughtError;
-      }
 
-      yield delay(250);
-      attempts--;
+
+    try {
+      yield call(
+        async () =>
+          await validateUpVoting(voteData.id, voteData.amount as number),
+      );
+      upvoteTx = yield call(
+        async () =>
+          await DiscoverUpVote(voteData.id, voteData.amount as number),
+      );
+    } catch (caughtError) {
+      error = caughtError;
     }
+
     if (!upvoteTx) {
       throw error;
     }

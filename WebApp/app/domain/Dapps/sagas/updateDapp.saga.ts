@@ -1,4 +1,4 @@
-import { take, call, put, select, race, delay } from 'redux-saga/effects';
+import { take, call, put, select, race } from 'redux-saga/effects';
 import { updateDappAction, setDappsLoadingAction } from '../actions';
 import { IDapp } from '../types';
 import { toast } from 'react-toastify';
@@ -51,43 +51,33 @@ function* updateDappSaga(dapp: IDapp) {
 
     if (existsOnChain) {
       yield call(async () => await validateMetadataSet(dapp.id));
-      let attempts = 10;
       let error;
       let uploadedMetadata;
-      while (attempts > 0) {
-        try {
-          uploadedMetadata = yield call(
-            async () => await uploadMetadataApi(dappMetadata, dapp.email),
-          );
-          attempts = 0;
-        } catch (caughtError) {
-          error = caughtError;
-        }
-        yield delay(250);
-        attempts--;
+
+      try {
+        uploadedMetadata = yield call(
+          async () => await uploadMetadataApi(dappMetadata, dapp.email),
+        );
+      } catch (caughtError) {
+        error = caughtError;
       }
+
 
       if (!uploadedMetadata) {
         throw 'Upload error';
       }
 
-      attempts = 10;
       let updateMetaTx;
-      while (attempts > 0) {
-        try {
-          updateMetaTx = yield call(
-            async () =>
-              await DiscoverSetMetadata(
-                dapp.id,
-                getBytes32FromIpfsHash(uploadedMetadata.data.hash),
-              ),
-          );
-          attempts = 0;
-        } catch (caughtError) {
-          error = caughtError;
-        }
-        yield delay(250);
-        attempts--;
+      try {
+        updateMetaTx = yield call(
+          async () =>
+            await DiscoverSetMetadata(
+              dapp.id,
+              getBytes32FromIpfsHash(uploadedMetadata.data.hash),
+            ),
+        );
+      } catch (caughtError) {
+        error = caughtError;
       }
 
       if (!uploadedMetadata) {
