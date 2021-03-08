@@ -5,6 +5,8 @@ export const FEATURED_DAPP_IDS = {
     '0x6be0814d1839c307802f6f4ab89a15471db316d301d8dc4834c3464efc8f9237', // oasis
   ],
   3: [
-
+    '0xc6d93c7b4e07196f345a4b40e653b132e065fac842c3c14a670506db8c0ce8b8', // Matcha
+    '0xe712b173b0ca76b457b142193915d12fd68b3417174291d6e65703015c3a8766', // Gitcoin Grants
+    '0xfb0d1edcf0b6e626e1d6cf304d47fcc40513aae170bbd2d2648f9ac736d7977b', //1inch
   ]
 }
